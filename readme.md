@@ -1,1 +1,1 @@
-# Expense tracker frotnend
+# Expense tracker frontend

@@ -1,0 +1,79 @@
+export const IncomeBoard = ()=>{
+    return(
+        <div>
+            <div className="card mt-2 p-1" style={{background:"#D6EA76", width: "90%"}}>
+                <h2>My income total this month: $12000</h2>
+                <p>Increased from last month : <strong>2000$ </strong></p>
+                <p>Predicted income from budget: $<strong>2000$ </strong> </p>
+            </div>
+            <div>
+                <div className="d-flex flex-column pe-4" >
+                    <h3 className="d-inline p-0 m-0"> My income by sources</h3>
+                    <button className="btn btn-success align-self-end me-4" >Add new income source</button>
+                </div>
+                
+                <div className="p-3">
+                
+                    <div className="row" >
+                        <div className="col-2 card me-2" style={{background:"#D6EA76"}}>
+                            <h5>Salary</h5>
+                            <p>$ 100</p>
+                        </div>
+                        <div className="col-2 card me-2" style={{background:"#D6EA76"}}>
+                            <h5>Gift</h5>
+                            <p>$ 100</p>
+                        </div>
+                        <div className="col-2 card me-2" style={{background:"#D6EA76"}}>
+                            <h5>Tax refund</h5>
+                            <p>$ 100</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div className="d-flex flex-column pe-4" >
+                    <h3 className="d-inline p-0 m-0"> My income by sources</h3>
+                    <button className="btn btn-success align-self-end me-4" >Add new income </button>
+                </div>
+            <table className="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">3</th>
+                    <td colSpan={2}>Larry the Bird</td>
+                    <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul className="pagination">
+                    <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                    <li className="page-item"><a className="page-link" href="#">1</a></li>
+                    <li className="page-item"><a className="page-link" href="#">2</a></li>
+                    <li className="page-item"><a className="page-link" href="#">3</a></li>
+                    <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    )
+}

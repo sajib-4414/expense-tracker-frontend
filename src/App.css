@@ -1,0 +1,5 @@
+html, body {
+  height: 100%; /* Ensure the html and body elements take full height */
+  margin: 0;    /* Remove default margin */
+  overflow: hidden; 
+}

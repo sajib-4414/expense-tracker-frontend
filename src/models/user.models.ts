@@ -7,8 +7,9 @@ export interface User{
     id:number,
     email:string,
     username:string,
-    name:string,
-    profileImage:string;
+    profileImage?:string;
+    firstname:string;
+    lastname:string;
 }
 
 

@@ -58,6 +58,7 @@ export const Sidebar = () => {
         </li>
       </ul>
       <hr />
+      <button className="btn btn-secondary">Logout</button>
       
       <div className="dropdown">
         <a

@@ -39,7 +39,7 @@ export const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/budget" className={`nav-link ${isActive('/budget')}`}>
+          <Link to="/budgets" className={`nav-link ${isActive('/budgets')}`}>
             <i className="bi bi-bar-chart me-2"></i>
             Budget dashboard
           </Link>

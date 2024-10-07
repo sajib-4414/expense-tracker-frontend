@@ -8,6 +8,8 @@ import { ErrorFallback } from "./components/common/ErrorFallback";
 import { ExpenseHomeContainer } from "./pages/ExpenseHomeContainer";
 import { Dashboard } from "./pages/Dashboard";
 import { IncomeBoard } from "./pages/IncomeBoard";
+import { ExpenseBoard } from "./pages/ExpenseBoard";
+import { BudgetBoard } from "./pages/BudgetBoard";
 
 const HOCWithContainer = (OriginalComponent:any) => {
   function NewComponent(props:any) {
@@ -23,6 +25,8 @@ const HOCWithContainer = (OriginalComponent:any) => {
 };
 
 const WrappedDashboard = HOCWithContainer(Dashboard)
+const WrappedExpense = HOCWithContainer(ExpenseBoard)
+const WrappedBudget = HOCWithContainer(BudgetBoard)
 const WrappedIncome = HOCWithContainer(IncomeBoard)
 
 // const GuardedExpenseHome = GuardedHOC(ExpenseHome)
@@ -35,6 +39,14 @@ export const router = createBrowserRouter([
     {
       element: <WrappedIncome />,
       path: "/income"
+    },
+    {
+      element: <WrappedExpense />,
+      path: "/expenses"
+    },
+    {
+      element: <WrappedBudget />,
+      path: "/budgets"
     },
     {
         path: "/register",

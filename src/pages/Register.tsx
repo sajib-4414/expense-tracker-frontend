@@ -16,25 +16,30 @@ export interface Coordinate{
 export const Register:FC = ()=>{
 
 
-    const [username, setUserName] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [errorLine,setErrorLine] = useState("")
     const dispatch = useDispatch()
 
     const submitForm = (event:FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
-        if(username.length === 0){
-            setErrorLine("Username is required")
+        if(firstName.length === 0){
+            setErrorLine("firstName is required")
             return;
         }
         if(email.length === 0){
             setErrorLine("Email is required")
             return;
         }
-        if(name.length === 0){
-            setErrorLine("name is required")
+        if(lastName.length === 0){
+            setErrorLine("lastName is required")
+            return;
+        }
+        if(userName.length === 0){
+            setErrorLine("userName is required")
             return;
         }
         if(email.length === 0){
@@ -48,8 +53,9 @@ export const Register:FC = ()=>{
        
         //make API call
         axiosInstance.post('/auth/register',{
-            username,
-            name,
+            firstname: firstName,
+            lastname: lastName,
+            username:userName,
             email,
             password,
         }).then(async(response)=>{
@@ -76,14 +82,25 @@ export const Register:FC = ()=>{
 
             <form className="col-md-4 border rounded" onSubmit={submitForm}>
             <div className="form-group">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">FirstName</label>
                 <input type="text" 
                 className="form-control"
                  id="name" 
                  aria-describedby="emailHelp"
-                 value={name}
-                 onChange={e=>setName(e.target.value)}
-                 placeholder="Your Name"
+                 value={firstName}
+                 onChange={e=>setFirstName(e.target.value)}
+                 placeholder="Your Firstname"
+                  />
+            </div>
+            <div className="form-group">
+                <label htmlFor="name">lastName</label>
+                <input type="text" 
+                className="form-control"
+                 id="name" 
+                 aria-describedby="emailHelp"
+                 value={lastName}
+                 onChange={e=>setLastName(e.target.value)}
+                 placeholder="Your LastName"
                   />
             </div>
             <div className="form-group">
@@ -103,7 +120,7 @@ export const Register:FC = ()=>{
                 className="form-control"
                  id="name" 
                  aria-describedby="emailHelp"
-                 value={username}
+                 value={userName}
                  onChange={e=>setUserName(e.target.value)}
                  placeholder="Username"
                   />
@@ -119,7 +136,7 @@ export const Register:FC = ()=>{
                 placeholder="Password"/>
             </div>
 
-            <button type="submit" className="btn btn-primary mb-2">Submit</button>
+            <button type="submit" className="btn btn-primary my-2">Submit</button>
 
             <p>Already have an account? <Link to="/login">Login here.</Link> </p>
             <ErrorMessage

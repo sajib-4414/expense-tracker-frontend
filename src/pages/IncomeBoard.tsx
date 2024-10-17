@@ -1,3 +1,5 @@
+import { Form } from "react-bootstrap"
+
 export const IncomeBoard = ()=>{
     return(
         <div>
@@ -35,7 +37,18 @@ export const IncomeBoard = ()=>{
             <div className="d-flex flex-column pe-4" >
                     <h3 className="d-inline p-0 m-0"> My income by sources</h3>
                     <button className="btn btn-success align-self-end me-4" >Add new income </button>
-                </div>
+            </div>
+            <div style={{display:"flex", alignItems:"center"}}>
+                
+                    <label htmlFor="entriesPerPage">Show</label>
+                    <Form.Select aria-label="Default select example" className="mx-2" style={{width:"80px"}}>
+                    <option value="1">5</option>
+                    <option value="2">10</option>
+                    <option value="3">15</option>
+                    </Form.Select>
+                    <label htmlFor="entriesPerPage">entries per page</label>
+               
+            </div>
             <table className="table">
                 <thead>
                     <tr>

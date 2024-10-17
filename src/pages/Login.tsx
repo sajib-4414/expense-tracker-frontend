@@ -27,7 +27,7 @@ export const Login:FC = ()=>{
             return;
         }
         //make API call
-        axiosInstance.post('/auth/login',{
+        axiosInstance.post('/auth/authenticate',{
             username,
             password
         }).then(async (response)=>{
@@ -75,7 +75,7 @@ export const Login:FC = ()=>{
                     placeholder="Password"/>
                 </div>
                 
-                <button type="submit" className="btn btn-primary mb-2">Submit</button>
+                <button type="submit" className="btn btn-primary my-2">Login</button>
 
                 <p>Dont have an account? <Link to="/register">Register here.</Link> </p>
                 <ErrorMessage

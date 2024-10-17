@@ -1,3 +1,5 @@
+import { Form } from "react-bootstrap"
+
 export const ExpenseBoard = ()=>{
     return(
         <div>
@@ -39,16 +41,16 @@ export const ExpenseBoard = ()=>{
                     <h3 className="d-inline p-0 m-0"> My recent expenses</h3>
                     <button className="btn btn-success align-self-end me-4" >Add new income </button>
                 </div>
-            <div className="row">
-                <div className="col-md-6">
+            <div style={{display:"flex", alignItems:"center"}}>
+                
                     <label htmlFor="entriesPerPage">Show</label>
-                    <select id="entriesPerPage" className="custom-select w-auto">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                    </select>
+                    <Form.Select aria-label="Default select example" className="mx-2" style={{width:"80px"}}>
+                    <option value="1">5</option>
+                    <option value="2">10</option>
+                    <option value="3">15</option>
+                    </Form.Select>
                     <label htmlFor="entriesPerPage">entries per page</label>
-                </div>
+               
             </div>
             <table className="table">
                 <thead>

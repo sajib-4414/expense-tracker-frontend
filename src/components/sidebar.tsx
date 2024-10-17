@@ -1,16 +1,26 @@
-import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Dropdown from 'react-bootstrap/Dropdown';
+import { LoggedInUser } from "../models/user.models";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { resetUser } from "../store/UserSlice";
+import { router } from "../router";
 
 export const Sidebar = () => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const location = useLocation(); // Get current location
 
-  const toggleDropdown = () => {
-    setDropdownOpen((prev) => !prev);
-  };
+  const location = useLocation(); // Get current location
+  const loggedinUser:LoggedInUser|null = useAppSelector(
+    (state)=> state.userSlice.loggedInUser //we can also listen to entire slice instead of loggedInUser of the userSlice
+  )
+  const dispatch = useAppDispatch();
+  const handleLogout = async()=>{
+        dispatch(resetUser())
+        router.navigate('/login')
+    }
+    
+
 
   // Helper function to determine if the link is active
-  const isActive = (path) => location.pathname === path ? "active" : "text-white";
+  const isActive = (path:string) => location.pathname === path ? "active" : "text-white";
 
   return (
     <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark h-100">
@@ -44,12 +54,7 @@ export const Sidebar = () => {
             Budget dashboard
           </Link>
         </li>
-        <li>
-          <Link to="/report" className={`nav-link ${isActive('/report')}`}>
-            <i className="bi bi-file-earmark-check me-2"></i>
-            Report
-          </Link>
-        </li>
+        
         <li>
           <Link to="/categories" className={`nav-link ${isActive('/categories')}`}>
             <i className="bi bi-list-ul me-2"></i>
@@ -58,28 +63,27 @@ export const Sidebar = () => {
         </li>
       </ul>
       <hr />
-      <button className="btn btn-secondary">Logout</button>
-      
-      <div className="dropdown">
-        <a
-          href="#"
-          className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-          onClick={toggleDropdown}
-          aria-expanded={isDropdownOpen}
-        >
-          <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-          <strong>mdo</strong>
-        </a>
-        {isDropdownOpen && (
-          <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">New project...</a></li>
-            <li><a className="dropdown-item" href="#">Settings</a></li>
-            <li><a className="dropdown-item" href="#">Profile</a></li>
-            <li><hr className="dropdown-divider" /></li>
-            <li><a className="dropdown-item" href="#">Sign out</a></li>
-          </ul>
-        )}
+  
+
+      <div style={{display:"flex"}}>
+     
+      <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
+          
+       
+          <Dropdown>
+          <Dropdown.Toggle variant="info" id="dropdown-basic">
+            {loggedinUser?.user.firstname+" " + loggedinUser?.user.lastname}
+          </Dropdown.Toggle>
+    
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
+          
+      
+      
     </div>
   );
 };

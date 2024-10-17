@@ -1,8 +1,20 @@
+import { Form } from "react-bootstrap";
+
 export const BudgetBoard = ()=>{
+
+    const getCurrentMonth = ()=>{
+        const currentMonthNumber = new Date().getMonth() + 1;
+        console.log("Current month (number):", currentMonthNumber);
+
+        // Get the current month as a full name
+        const currentMonthName = new Date().toLocaleDateString('en-US', { month: 'long' });
+        console.log("Current month (name):", currentMonthName);
+        return currentMonthName
+    }
     return(
         <div>
             <div className="card mt-2 p-1" style={{background:"#D6EA76", width: "90%"}}>
-                <h2>Budget for 2024 September</h2>
+                <h2>Budget for 2024 {getCurrentMonth()} </h2>
                 <p>Budgeted max expenditure for the period <strong>15,000$ </strong></p>
                 <p>Budget spent <strong>70% </strong></p>
                 <p>Budget defined in <strong>5 </strong> categories</p>
@@ -11,8 +23,8 @@ export const BudgetBoard = ()=>{
             </div>
             <div>
             <div className="d-flex flex-column pe-4" >
-                    <h3 className="d-inline p-0 m-0"> My budget breakdown</h3>
-                    <button className="btn btn-success align-self-end me-4" >Add new budget category</button>
+                    <h3 className="d-inline p-0 m-0"> My itemized budget breakdown</h3>
+                    <button className="btn btn-success align-self-end me-4" >Add new itemized budget</button>
                 </div>
                 
                 <div className="p-3">
@@ -44,27 +56,27 @@ export const BudgetBoard = ()=>{
             </div>
 
             <div className="d-flex flex-column pe-4" >
-                    <h3 className="d-inline p-0 m-0"> My budgets</h3>
-                    <button className="btn btn-success align-self-end me-4" >Add new budget </button>
+                    <h3 className="d-inline p-0 m-0"> Previously defined budgets</h3>
+                    <button className="btn btn-success align-self-end me-4" >Add budget for future </button>
                 </div>
-            <div className="row">
-                <div className="col-md-6">
+            <div style={{display:"flex", alignItems:"center"}}>
+                
                     <label htmlFor="entriesPerPage">Show</label>
-                    <select id="entriesPerPage" className="custom-select w-auto">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                    </select>
+                    <Form.Select aria-label="Default select example" className="mx-2" style={{width:"80px"}}>
+                    <option value="1">5</option>
+                    <option value="2">10</option>
+                    <option value="3">15</option>
+                    </Form.Select>
                     <label htmlFor="entriesPerPage">entries per page</label>
-                </div>
+               
             </div>
             <table className="table">
                 <thead>
                     <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Budget Month</th>
+                    <th scope="col">Max expense defined</th>
+                    <th scope="col">Spent</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,7 +1,11 @@
-export interface PaginatedResponse<T> {
+export interface PaginatedResponse<T> extends PaginationMetadata{
     content:T[],
-    page: number,
-    totalElements: number,
-    totalPages: number,
-    size:number
+    
+}
+
+export interface PaginationMetadata {
+    page: number;
+    totalElements: number;
+    totalPages: number;
+    size: number;
 }

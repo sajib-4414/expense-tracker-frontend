@@ -7,6 +7,7 @@ import { useAppSelector } from "../store/store"
 import {  CategoryExpense, Expense, FinancialSummary } from "../models/expense.models"
 import { PaginatedResponse } from "../models/common.models"
 import { formatDate, getPageNumbers } from "../utility/datehelper"
+import { PageSection } from "../components/common/PageSection"
 
 export const Dashboard = ()=>{
     const loggedinUser:LoggedInUser|null = useAppSelector(
@@ -138,34 +139,10 @@ export const Dashboard = ()=>{
                             
                         </tbody>
                     </table>
-                    {expenseList.totalElements > expenseList.size &&
-                        <>
-                            <nav aria-label="Page navigation area">
-                                <ul className="pagination">
-                                {expenseList.page > 1 ? 
-                                    <li className="page-item">
-                                        <a className="page-link" href="#">Previous</a>
-                                    </li>
-                                    :
-                                    <li className="page-item disabled">
-                                        <a className="page-link" href="#" tabIndex={-1} aria-disabled="true">Previous</a>
-                                    </li>
-                                }
-                                
-                                {getPageNumbers(expenseList.totalPages,expenseList.page).map((pageNumber) => (
-                                    <li key={pageNumber} className={`page-item ${pageNumber === expenseList.page ? 'disabled' : ''}`}>
-                                        <a className="page-link" href="#" onClick={() => onPageChange(pageNumber)}>{pageNumber}</a>
-                                    </li>
-                                ))}
-
-                                  
-                                    <li className={`page-item ${expenseList.page === expenseList.totalPages ? 'disabled' : ''}`}>
-                                        <a className="page-link" href="#" onClick={() => onPageChange(expenseList.page + 1)}>Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </>
-                    }
+                            <PageSection
+                            pagedList={expenseList}
+                            onPageChange={onPageChange}
+                            />
                     
                 </>
             }

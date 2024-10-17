@@ -1,12 +1,57 @@
 import { Form } from "react-bootstrap"
+import { axiosInstance } from "../utility/axiosInstance";
+import { getAuthHeader } from "../utility/authHelper";
+import { LoggedInUser } from "../models/user.models";
+import { useAppSelector } from "../store/store";
+import { useEffect, useState } from "react";
+import { Income, IncomeByIncomeSource, IncomeSummary } from "../models/income.models";
+import { PaginatedResponse } from "../models/common.models";
 
 export const IncomeBoard = ()=>{
+    const loggedinUser:LoggedInUser|null = useAppSelector(
+        (state)=> state.userSlice.loggedInUser //we can also listen to entire slice instead of loggedInUser of the userSlice
+    )
+    const [incomeSummary, setIncomeSummary] = useState<IncomeSummary|null>(null);
+    const [incomeList, setIncomeList] = useState<PaginatedResponse<Income>|null>(null);
+    const [pageSize, setPageSize] = useState<number>(5);
+
+    const getOverViewData = async ()=>{
+        try{
+            const response = await axiosInstance.get('/income/summary', getAuthHeader(loggedinUser))
+            setIncomeSummary(response.data);
+        }catch(err){
+            console.log('could not fetch dashboard data, error=',err);
+        }
+    }
+    const getRecentIncomes = async ({
+        page=1, size=null
+    }:{page?:number, size?:number|null})=>{
+        try{
+            const pageFinalSize = size? size : pageSize
+            const response = await axiosInstance.get(`/expenses?page=${page}&&size=${pageFinalSize}`, getAuthHeader(loggedinUser))
+            setIncomeList(response.data);
+        }catch(err){
+            console.log('could not fetch dashboard data, error=',err);
+        }
+    }
+
+    useEffect(()=>{
+        getOverViewData();
+        getRecentIncomes({});
+    },[]);
+
+
     return(
         <div>
             <div className="card mt-2 p-1" style={{background:"#D6EA76", width: "90%"}}>
-                <h2>My income total this month: $12000</h2>
-                <p>Increased from last month : <strong>2000$ </strong></p>
-                <p>Predicted income from budget: $<strong>2000$ </strong> </p>
+                {incomeSummary &&
+                    <>
+                    <h2>My income total this month: ${incomeSummary?.totalIncomeThisMonth}</h2>
+                    <p>Change from last month : <strong> {incomeSummary?.totalIncomeThisMonth > incomeSummary?.totalIncomeLastMonth ? '+': '-'}$ {Math.abs(incomeSummary?.totalIncomeThisMonth-incomeSummary?.totalIncomeLastMonth)} </strong></p>
+                    <p>Predicted income from budget: $<strong>{incomeSummary.budgetedIncomeThisMonth} </strong> </p>
+                    </>
+                }
+                
             </div>
             <div>
                 <div className="d-flex flex-column pe-4" >
@@ -17,25 +62,23 @@ export const IncomeBoard = ()=>{
                 <div className="p-3">
                 
                     <div className="row" >
-                        <div className="col-2 card me-2" style={{background:"#D6EA76"}}>
-                            <h5>Salary</h5>
-                            <p>$ 100</p>
-                        </div>
-                        <div className="col-2 card me-2" style={{background:"#D6EA76"}}>
-                            <h5>Gift</h5>
-                            <p>$ 100</p>
-                        </div>
-                        <div className="col-2 card me-2" style={{background:"#D6EA76"}}>
-                            <h5>Tax refund</h5>
-                            <p>$ 100</p>
-                        </div>
+                        {incomeSummary && incomeSummary.incomeListBySource.map((item:IncomeByIncomeSource,idx)=>{
+                            return(
+                                <div key={idx} className="col-2 card me-2" style={{background:"#D6EA76"}}>
+                                    <h5>{ item.income_source_id >0 ? item.income_source_name: 'Uncategorized'} </h5>
+                                    <p>$ {item.income_total}</p>
+                                </div>
+                            )
+                        })}
+                        
+                      
                         
                     </div>
                 </div>
             </div>
 
             <div className="d-flex flex-column pe-4" >
-                    <h3 className="d-inline p-0 m-0"> My income by sources</h3>
+                    <h3 className="d-inline p-0 m-0"> My reproted incomes this month</h3>
                     <button className="btn btn-success align-self-end me-4" >Add new income </button>
             </div>
             <div style={{display:"flex", alignItems:"center"}}>

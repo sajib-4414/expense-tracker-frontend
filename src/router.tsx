@@ -11,6 +11,7 @@ import { IncomeBoard } from "./pages/IncomeBoard";
 import { ExpenseBoard } from "./pages/ExpenseBoard";
 import { BudgetBoard } from "./pages/BudgetBoard";
 import GuardedHOC from "./components/common/GuardedComponent";
+import { Categories } from "./pages/Categories";
 
 const HOCWithContainer = (OriginalComponent:any) => {
   function NewComponent(props:any) {
@@ -26,6 +27,7 @@ const HOCWithContainer = (OriginalComponent:any) => {
 };
 
 const WrappedDashboard = HOCWithContainer(Dashboard)
+const WrappedCategories = HOCWithContainer(Categories)
 const WrappedExpense = HOCWithContainer(ExpenseBoard)
 const WrappedBudget = HOCWithContainer(BudgetBoard)
 const WrappedIncome = HOCWithContainer(IncomeBoard)
@@ -33,6 +35,7 @@ const WrappedIncome = HOCWithContainer(IncomeBoard)
 const GuardedDashboard = GuardedHOC(WrappedDashboard)
 const GuardedIncomeBoard = GuardedHOC(WrappedIncome)
 const GuardedBudgetBoard = GuardedHOC(WrappedBudget)
+const GuardedCategory = GuardedHOC(WrappedCategories)
 
 export const router = createBrowserRouter([
     {
@@ -51,6 +54,10 @@ export const router = createBrowserRouter([
     {
       element: <GuardedBudgetBoard />,
       path: "/budgets"
+    },
+    {
+      element: <GuardedCategory />,
+      path: "/categories"
     },
     {
         path: "/register",

@@ -7,5 +7,6 @@ export interface PaginationMetadata {
     page: number;
     totalElements: number;
     totalPages: number;
-    size: number;
+    number: number;
+    last?:boolean;
 }

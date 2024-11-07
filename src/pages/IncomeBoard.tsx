@@ -6,6 +6,8 @@ import { useAppSelector } from "../store/store";
 import { useEffect, useState } from "react";
 import { Income, IncomeByIncomeSource, IncomeSummary } from "../models/income.models";
 import { PaginatedResponse } from "../models/common.models";
+import { formatDate } from "../utility/datehelper"
+import { PageSection } from "../components/common/PageSection";
 
 export const IncomeBoard = ()=>{
     const loggedinUser:LoggedInUser|null = useAppSelector(
@@ -23,16 +25,32 @@ export const IncomeBoard = ()=>{
             console.log('could not fetch dashboard data, error=',err);
         }
     }
+    const handlePageSizeChange = (event:React.ChangeEvent<HTMLSelectElement> ) =>{
+        console.log('i am being invoked', event.target.value)
+        const selectedValue = event.target.value;
+        const sizeHere = (parseInt(selectedValue)||1)
+        setPageSize(sizeHere);
+        getRecentIncomes({
+          
+            size:sizeHere
+        });
+    }
     const getRecentIncomes = async ({
         page=1, size=null
     }:{page?:number, size?:number|null})=>{
         try{
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1; // getMonth() returns 0-11, so add 1
+            const currentYear = now.getFullYear();
             const pageFinalSize = size? size : pageSize
-            const response = await axiosInstance.get(`/expenses?page=${page}&&size=${pageFinalSize}`, getAuthHeader(loggedinUser))
+            const response = await axiosInstance.get(`/income?page=${page}&&size=${pageFinalSize}&&month=${currentMonth}&&year=${currentYear}`, getAuthHeader(loggedinUser))
             setIncomeList(response.data);
         }catch(err){
             console.log('could not fetch dashboard data, error=',err);
         }
+    }
+    const onPageChange = async(pageNumber:number)=>{
+        getRecentIncomes({page:pageNumber})
     }
 
     useEffect(()=>{
@@ -81,55 +99,66 @@ export const IncomeBoard = ()=>{
                     <h3 className="d-inline p-0 m-0"> My reproted incomes this month</h3>
                     <button className="btn btn-success align-self-end me-4" >Add new income </button>
             </div>
-            <div style={{display:"flex", alignItems:"center"}}>
+            {(!incomeList || incomeList.content.length===0) && 
+            <p>
+                No reported Incomes Yet this month.
+            </p>
+            }
+             {(incomeList && incomeList.content.length>0) &&
+                <>
+                    <div style={{display:"flex", alignItems:"center"}}>
+                            
+                            <label htmlFor="entriesPerPage">Show</label>
+                            <Form.Select 
+                            aria-label="Default select example" 
+                            className="mx-2" 
+                            style={{width:"80px"}}
+                            onChange={handlePageSizeChange}
+                            value={pageSize}
+                        >
+                            <option value="5" >5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                        </Form.Select>
+                            <label htmlFor="entriesPerPage">entries per page</label>
+                    
+                    </div>
+
+                    <table className="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Source</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {incomeList.content.map((item:Income,idx)=>{
+                                return(
+                                    <tr key={idx}>
+                                        <th scope="row">{idx+1}</th>
+                                        <td>{item.incomeSource ?item.incomeSource?.name : 'Uncategorized'}</td>
+                                        <td>{item.amount.toString()}</td>
+                                        <td>{formatDate(item.dateTime)}</td>
+                                    </tr>
+                                )
+                            })}
+                            
+                            
+                           
+                        </tbody>
+                    </table>
+                    <PageSection
+                            pagedList={incomeList}
+                            onPageChange={onPageChange}
+                    />
+
+                </>}
+            
+            
                 
-                    <label htmlFor="entriesPerPage">Show</label>
-                    <Form.Select aria-label="Default select example" className="mx-2" style={{width:"80px"}}>
-                    <option value="1">5</option>
-                    <option value="2">10</option>
-                    <option value="3">15</option>
-                    </Form.Select>
-                    <label htmlFor="entriesPerPage">entries per page</label>
-               
-            </div>
-            <table className="table">
-                <thead>
-                    <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td colSpan={2}>Larry the Bird</td>
-                    <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example">
-                <ul className="pagination">
-                    <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
         </div>
     )
 }

@@ -6,7 +6,7 @@ import { LoggedInUser } from "../models/user.models"
 import { useAppSelector } from "../store/store"
 import {  CategoryExpense, Expense, FinancialSummary } from "../models/expense.models"
 import { PaginatedResponse } from "../models/common.models"
-import { formatDate, getPageNumbers } from "../utility/datehelper"
+import { formatDate } from "../utility/datehelper"
 import { PageSection } from "../components/common/PageSection"
 
 export const Dashboard = ()=>{

@@ -11,9 +11,17 @@ export interface FinancialSummary {
     topCategoryExpense: CategoryExpense[];
 }
 
+export interface ExpenseBoardSummary {
+    totalExpenseThisMonth: number;
+    totalExpenseLastMonth: number;
+    budgetedExpenseThisMonth: number;
+    categoryWiseExpense: CategoryExpense[];
+}
+
 export interface Category{
     id:number,
     name:string
+    custom?:boolean
 }
 
 export interface Expense{

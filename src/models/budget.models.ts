@@ -9,11 +9,19 @@ export interface BudgetItem {
 
 export interface Budget {
     id: number;
-    budgetPeriod: string;
+    budget_period: string;
     estimatedIncome: number;
     maxSpend: number;
     warningSpend: number;
     budgetItemList: BudgetItem[];
+}
+
+export interface BudgetSummaryListItem {
+    id: number;
+    budget_period: string;
+    maximum_expense: number;
+    total_expense: number;
+    total_income: number;
 }
 
 export interface CategoryWiseBudgetSummary {
@@ -44,3 +52,4 @@ export interface BudgetPayload{
     maxSpend: number;
     warningSpend: number;
 }
+

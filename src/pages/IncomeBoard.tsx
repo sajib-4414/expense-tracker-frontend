@@ -1,4 +1,4 @@
-import { Form } from "react-bootstrap"
+import {  Form } from "react-bootstrap"
 import { axiosInstance } from "../utility/axiosInstance";
 import { getAuthHeader } from "../utility/authHelper";
 import { LoggedInUser } from "../models/user.models";
@@ -16,6 +16,11 @@ export const IncomeBoard = ()=>{
     const [incomeSummary, setIncomeSummary] = useState<IncomeSummary|null>(null);
     const [incomeList, setIncomeList] = useState<PaginatedResponse<Income>|null>(null);
     const [pageSize, setPageSize] = useState<number>(5);
+    
+
+   
+    
+      
 
     const getOverViewData = async ()=>{
         try{
@@ -61,10 +66,14 @@ export const IncomeBoard = ()=>{
 
     return(
         <div>
+
+            
+
+
             <div className="card mt-2 p-1" style={{background:"#D6EA76", width: "90%"}}>
                 {incomeSummary &&
                     <>
-                    <h2>My income total this month: ${incomeSummary?.totalIncomeThisMonth}</h2>
+                    <h2>Total income this month: ${incomeSummary?.totalIncomeThisMonth}</h2>
                     <p>Change from last month : <strong> {incomeSummary?.totalIncomeThisMonth > incomeSummary?.totalIncomeLastMonth ? '+': '-'}$ {Math.abs(incomeSummary?.totalIncomeThisMonth-incomeSummary?.totalIncomeLastMonth)} </strong></p>
                     <p>Predicted income from budget: $<strong>{incomeSummary.budgetedIncomeThisMonth} </strong> </p>
                     </>
@@ -73,8 +82,8 @@ export const IncomeBoard = ()=>{
             </div>
             <div>
                 <div className="d-flex flex-column pe-4" >
-                    <h3 className="d-inline p-0 m-0"> My income by sources</h3>
-                    <button className="btn btn-success align-self-end me-4" >Add new income source</button>
+                    <h3 className="d-inline p-0 m-0"> Total income by source</h3>
+                    
                 </div>
                 
                 <div className="p-3">
@@ -96,7 +105,7 @@ export const IncomeBoard = ()=>{
             </div>
 
             <div className="d-flex flex-column pe-4" >
-                    <h3 className="d-inline p-0 m-0"> My reproted incomes this month</h3>
+                    <h3 className="d-inline p-0 m-0"> All Incomes this month</h3>
                     <button className="btn btn-success align-self-end me-4" >Add new income </button>
             </div>
             {(!incomeList || incomeList.content.length===0) && 

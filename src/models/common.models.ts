@@ -4,9 +4,9 @@ export interface PaginatedResponse<T> extends PaginationMetadata{
 }
 
 export interface PaginationMetadata {
-    page: number;
     totalElements: number;
     totalPages: number;
     number: number;
+    size:number;
     last?:boolean;
 }

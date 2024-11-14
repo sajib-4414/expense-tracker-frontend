@@ -25,9 +25,15 @@ export interface Category{
 }
 
 export interface Expense{
-    id:Number,
+    id:number,
     category?: Category|null,
-    cost:Number,
+    cost:number,
     dateTime:string,
     notes:string
+}
+export interface ExpensePayload{
+    cost: number;
+    notes: string;
+    dateTime:string;
+    category_id?:number;
 }

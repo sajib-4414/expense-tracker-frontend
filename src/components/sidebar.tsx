@@ -58,7 +58,7 @@ export const Sidebar = () => {
         <li>
           <Link to="/categories" className={`nav-link ${isActive('/categories')}`}>
             <i className="bi bi-list-ul me-2"></i>
-            Categories
+            Income Sources & Categories
           </Link>
         </li>
       </ul>

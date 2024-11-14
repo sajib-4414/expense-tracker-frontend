@@ -2,7 +2,7 @@ import { Button, Dropdown, Form, Modal } from "react-bootstrap";
 import { LoggedInUser } from "../models/user.models";
 import { useAppSelector } from "../store/store";
 import { useEffect, useState } from "react";
-import { Budget,  BudgetItemPayload, BudgetPayload, BudgetSummary, CategoryWiseBudgetSummary } from "../models/budget.models";
+import { Budget,  BudgetItemPayload, BudgetPayload, BudgetSummary, BudgetSummaryListItem, CategoryWiseBudgetSummary } from "../models/budget.models";
 import { PaginatedResponse } from "../models/common.models";
 import { axiosInstance } from "../utility/axiosInstance";
 import { getAuthHeader } from "../utility/authHelper";
@@ -17,7 +17,7 @@ export const BudgetBoard = ()=>{
         (state)=> state.userSlice.loggedInUser //we can also listen to entire slice instead of loggedInUser of the userSlice
     )
     const [budgetSummary, setBudgetSummary] = useState<BudgetSummary|null>(null);
-    const [budgetList, setBudgetList] = useState<PaginatedResponse<Budget>|null>(null);
+    const [budgetList, setBudgetList] = useState<PaginatedResponse<BudgetSummaryListItem>|null>(null);
     const [pageSize, setPageSize] = useState<number>(5);
     const [showBudgetItemModal,setShowBudgetItemModal] = useState(false)
     const [showNewBudgetModal, setshowNewBudgetModal] = useState(false);
@@ -426,18 +426,21 @@ export const BudgetBoard = ()=>{
                             <th scope="col">#</th>
                             <th scope="col">Month</th>
                             <th scope="col">Maximum Expense</th>
+                            <th scope="col">Total Income</th>
                             <th scope="col">Spent</th>
                             </tr>
                         </thead>
                         <tbody>
                             
-                            {budgetList.content.map((item:Budget,idx)=>{
+                            {budgetList.content.map((item:BudgetSummaryListItem,idx)=>{
                                 return(
                                     <tr key={idx}>
                                         <th scope="row">{idx+1}</th>
-                                        <td>{formatDate(item.budgetPeriod)}</td>
-                                        <td>{item.maxSpend}</td>
-                                        <td>N/A</td>
+                                        <td>{formatDate(item.budget_period)}</td>
+                                        <td>{item.maximum_expense}</td>
+                                        <td>{item.total_income}</td>
+                                        <td>{item.total_expense}</td>
+                                        
                                     </tr>
                                 )
                             })}
